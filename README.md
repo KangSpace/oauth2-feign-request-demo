@@ -8,9 +8,9 @@
   ,[securing-web](https://spring.io/guides/gs/securing-web/))
   (SpringSecurity认证流程图: https://img-blog.csdnimg.cn/20181202095539982.png)
 * 使用FeignClient获取oAuth2 Basic认证凭据(即token),并缓存维护
-> 即进行oAuth2 Basic认证 
+> 进行oAuth2 password认证 
 * 使用FeignClient使用token请求已知服务接口
-> 即使用AccessToken请求服务接口
+> 使用AccessToken请求服务接口
 * 使用Redis作为分布式锁(RedLock)及数据缓存中间件
 > 全局缓存AccessToken
 
