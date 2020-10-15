@@ -1,0 +1,21 @@
+#Form Login
+POST http://127.0.0.1:8086/login?username=success&password=success
+###
+
+#oAuth2.0:password 认证
+POST http://localhost:8086/oauth/token?grant_type=password&client_id=clientId1&client_secret=clientSecret1&username=success&password=success
+#{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDI3NDE1NDMsInVzZXJJZCI6InN1Y2Nlc3MiLCJ1c2VyX25hbWUiOiJzdWNjZXNzIiwianRpIjoiZmRkMDg2NTItNTQwMS00ODdlLTliNzEtMDc1ZjZlMTdmYTZjIiwiY2xpZW50X2lkIjoiY2xpZW50SWQxIiwic2NvcGUiOlsiV0VCIiwiQVBQIiwiVEhJUkQiXX0.x7Cs4sIi8Onn4xEhbXmuJ5aAdzzovpdRCUWheuOGw7U","token_type":"bearer","refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiJzdWNjZXNzIiwic2NvcGUiOlsiV0VCIiwiQVBQIiwiVEhJUkQiXSwiYXRpIjoiZmRkMDg2NTItNTQwMS00ODdlLTliNzEtMDc1ZjZlMTdmYTZjIiwiZXhwIjoxNjAyNzQxNTQzLCJ1c2VySWQiOiJzdWNjZXNzIiwianRpIjoiYmI4NWM5NDMtZmJmNy00MTFmLTliZDAtZjViMzQ4NmE5ZjE1IiwiY2xpZW50X2lkIjoiY2xpZW50SWQxIn0.KT63PuECAi9rnlOC-2lOeEbt2YRGsjXHDFs7BLZTOFA","expires_in":7194,"scope":"WEB APP THIRD"}
+###
+
+#1. oAuth2.0: authorization_code 认证,会跳转到登录页面进行登录,登录完成后再访问
+GET http://localhost:8086/oauth/authorize?response_type=code&client_id=clientId1&client_secret=clientSecret1&redirect_uri=https://kangspace.org
+###
+
+#2. oAuth2.0: authorization_code 认证
+POST http://localhost:8086/oauth/token?grant_type=authorization_code&code=LawsnG&redirect_uri=http://kangspace.org&scope=WEB&client_id=clientId1&client_secret=clientSecret1
+###
+
+#测试缓存oAuth2token 的DemoController
+#demo/getAll->oauth/token?grant_type=password->temp/resource/getAll
+GET http://localhost:8086/demo/getAll?p1=1&p2=2&p3=31
+###
