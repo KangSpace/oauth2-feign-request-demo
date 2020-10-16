@@ -88,11 +88,11 @@ public abstract class AbstractCacheableAuthenticationService {
         String lockKey = oAuth2Config.getOAuthLockKey();
         BoundKeyOperations lock = redisTemplate.boundValueOps(lockKey);
         int waitCount = 0;
-        //获取不到锁时,最多等待10s
         String accessToken;
         try {
-            //TODO 需换RedLock
-            while (!((BoundValueOperations) lock).setIfAbsent(FRESH_ACCESSTOKEN_LOCK_VAL)) {
+            //TODO 可换为Redisson RedLock
+            //token申请时,做10s分布式锁,获取不到锁时,最多等待10s
+            while (!((BoundValueOperations) lock).setIfAbsent(FRESH_ACCESSTOKEN_LOCK_VAL,FRESH_ACCESSTOKEN_LOCK_TIMEOUT, TimeUnit.MILLISECONDS)) {
                 log.debug("getAccessToken(appId:{} ,appSecret:{} ,username:{} ,password:{}): <<<not get the lock>>> ,waiting {} time(s)",appId,appSecret,username,password,waitCount+1);
                 if (waitCount >= 10) {
                     break;
@@ -102,8 +102,6 @@ public abstract class AbstractCacheableAuthenticationService {
                 } catch (InterruptedException e) {}
                 waitCount++;
             }
-            //token申请时,做10s分布式锁
-            lock.expire(FRESH_ACCESSTOKEN_LOCK_TIMEOUT, TimeUnit.MILLISECONDS);
 
             //等待后拿到锁时,重新获取缓存,缓存不存在时继续获取数据
             if (waitCount > 0) {

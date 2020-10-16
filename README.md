@@ -11,7 +11,7 @@
 > 即进行oAuth2 Basic认证 
 * 使用FeignClient使用token请求已知服务接口
 > 即使用AccessToken请求服务接口
-* 使用Redis作为分布式锁(RedLock)及数据缓存中间件
+* 使用Redis作为分布式锁(可选用RedLock)及数据缓存中间件
 > 全局缓存AccessToken
 
 ### 流程图
@@ -24,7 +24,6 @@
 ### TODO List  
 * [x] 基础功能开发
 * [ ] 测试
-* [ ] Redis分布式锁使用redission redLock
 * [ ] 流程图
 * [ ] 项目说明
 * [ ] 优化
